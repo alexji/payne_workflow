@@ -2,29 +2,10 @@ import time, os, glob, sys
 import shutil
 import numpy as np
 
+from .utils import load_nn
+
 from Payne4MIKE import utils
 from Payne4MIKE import fitting_rpa1 as fitting
-
-def load_nn(path):
-    tmp = np.load(path)
-    w_array_0 = tmp["w_array_0"].astype(np.float16)
-    w_array_1 = tmp["w_array_1"].astype(np.float16)
-    w_array_2 = tmp["w_array_2"].astype(np.float16)
-    b_array_0 = tmp["b_array_0"].astype(np.float16)
-    b_array_1 = tmp["b_array_1"].astype(np.float16)
-    b_array_2 = tmp["b_array_2"].astype(np.float16)
-    x_min = tmp["x_min"]
-    x_max = tmp["x_max"]
-    x_min[0] /= 1000.
-    x_max[0] /= 1000.
-    x_min, x_max = x_min.astype(np.float16), x_max.astype(np.float16)
-    NN_coeffs = (w_array_0, w_array_1, w_array_2, b_array_0, b_array_1, b_array_2, x_min, x_max)
-    tmp.close()
-
-    ## Hardcoded for now
-    wavelength_payne = np.arange(3500, 7000.01, 0.03)
-    
-    return NN_coeffs, wavelength_payne
 
 if __name__=="__main__":
     ## These are things that need to be specified in a config file
