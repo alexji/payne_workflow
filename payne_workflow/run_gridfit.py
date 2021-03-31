@@ -7,7 +7,7 @@ from Payne4MIKE import utils
 from Payne4MIKE import fitting_rpa1 as fitting
 
 if __name__=="__main__":
-    nn_path = ""
+    NN_path = ""
     labelpath = ""
     spectrapath = ""
     assert os.path.exists(labelpath), labelpath
@@ -27,7 +27,7 @@ if __name__=="__main__":
     assert all_spectra.shape[0] == Nspec
     
     ## Read NN
-    NN_coeffs, wavelength_payne = load_nn(nn_path)
+    NN_coeffs, wavelength_payne = load_nn(NN_path)
     wavelength = wavelength_payne.reshape((1,-1))
     errors_payne = np.zeros_like(wavelength_payne)
     coeff_poly = 1

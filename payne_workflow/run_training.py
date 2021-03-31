@@ -18,7 +18,7 @@ if __name__=="__main__":
     neuron_type = "relu"
     num_neurons = 300
     learning_rate = 1e-4
-    num_steps = 2e4
+    num_steps = 1e4
     batch_size = 512
     training_batch_size = 2048
     validation_batch_size = 512
