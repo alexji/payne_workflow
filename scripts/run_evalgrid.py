@@ -2,23 +2,27 @@ import time, os, glob, sys
 import shutil
 import numpy as np
 
-from .utils import load_nn
+from payne_workflow.utils import load_nn
+from payne_workflow.parse_config import *
 
 from Payne4MIKE import utils
 from Payne4MIKE import fitting_rpa1 as fitting
 
 if __name__=="__main__":
     ## These are things that need to be specified in a config file
-    all_labels_path = ""
-    all_spectra_path = ""
-    NN_path = ""
+    cfg = load_cfg(sys.argv[1])
     
-    workpath = ""
-    Nsave = 100
-    seed = 12
+    all_labels_path = cfg["all_labels_path"]
+    all_spectra_path = cfg["all_spectra_path"]
+    NN_path = cfg["NN_path"]
     
-    wranges = ((3000,4000),(4000,5000),(5000,6000),(6000,7000))
-    tol = 0.005
+    workpath = cfg["payne_evalgrid"]["workpath"]
+    if not os.path.exists(workpath): os.makedirs(workpath)
+    Nsave = cfg["payne_evalgrid"]["Nsave"]
+    seed = cfg["payne_evalgrid"]["seed"]
+    
+    wranges = cfg["payne_evalgrid"]["wranges"]
+    tol = cfg["payne_evalgrid"]["tol"]
     
     ## These are automatically generated paths
     os.chdir(workpath)
@@ -40,7 +44,8 @@ if __name__=="__main__":
 
     ## Save the wavelength and label arrays
     shutil.copyfile(all_labels_path, os.path.join(workpath, "all_labels.npy"))
-    np.save(wavelength_payne, os.path.join(workpath,"wave.npy"))
+    all_labels = np.load("all_labels.npy")
+    np.save(os.path.join(workpath,"wave.npy"), wavelength_payne)
     
     ##### Evaluate Grid
     

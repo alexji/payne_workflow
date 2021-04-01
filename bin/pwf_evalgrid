@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ipython ${PWF_DIR}/scripts/run_evalgrid.py $1

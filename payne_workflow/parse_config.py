@@ -40,7 +40,11 @@ def load_cfg(fname):
         cfg = yaml.load(fp)
     print("Loaded cfg",fname)
     for section in cfg:
-        print(section)
+        if isinstance(cfg[section], str):
+            print(section, cfg[section])
+        else:
+            for sec2 in cfg[section]:
+                print(section, sec2)
     return cfg
 
 def load_cfg_key(fname, key):

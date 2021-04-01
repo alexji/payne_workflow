@@ -6,15 +6,30 @@ import torch
 import time
 import os
 
+from payne_workflow.parse_config import *
+
 if __name__=="__main__":
+    cfg = load_cfg(sys.argv[1])
     assert torch.cuda.is_available()
     
     ## This is where the input data comes from
-    all_labels_path = ""
-    all_spectra_path = ""
+    all_labels_path = cfg["all_labels_path"]
+    all_spectra_path = cfg["all_spectra_path"]
     ## This is where outputs will go
-    workpath = ""
+    workpath = cfg["payne_training"]["workpath"]
+    if not os.path.exists(workpath): os.makedirs(workpath)
     
+    neuron_type = cfg["payne_training"]["neuron_type"]
+    num_neurons = cfg["payne_training"]["num_neurons"]
+    learning_rate = cfg["payne_training"]["learning_rate"]
+    num_steps = cfg["payne_training"]["num_steps"]
+    batch_size = cfg["payne_training"]["batch_size"]
+    training_batch_size = cfg["payne_training"]["training_batch_size"]
+    validation_batch_size = cfg["payne_training"]["validation_batch_size"]
+    traintest_seed = cfg["payne_training"]["seed"]
+    lnames = cfg["label_names"]
+    
+    """
     neuron_type = "relu"
     num_neurons = 300
     learning_rate = 1e-4
@@ -24,6 +39,7 @@ if __name__=="__main__":
     validation_batch_size = 512
     traintest_seed = 98457
     lnames = ["Teff","logg","vt","MH","aFe","CFe"]
+    """
     
 
     ## Import the code for the relevant network architecture
